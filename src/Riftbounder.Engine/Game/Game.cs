@@ -3,7 +3,7 @@ using Riftbounder.Core.Identifiers;
 using Riftbounder.Core.Zones;
 using Riftbounder.Engine.Results;
 
-namespace Riftbounder.Engine.Game;
+namespace Riftbounder.Engine.Games;
 
 public sealed class Game
 {

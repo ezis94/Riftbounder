@@ -1,7 +1,7 @@
 using Riftbounder.Core.Identifiers;
 using Riftbounder.Core.Zones;
 
-namespace Riftbounder.Engine.Game;
+namespace Riftbounder.Engine.Games;
 
 public sealed class Player
 {

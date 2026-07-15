@@ -1,6 +1,6 @@
 using Riftbounder.Core.Cards;
 using Riftbounder.Core.Identifiers;
-using Riftbounder.Engine.Game;
+using Riftbounder.Engine.Games;
 using Riftbounder.Engine.Results;
 
 namespace Riftbounder.Engine.Tests;
