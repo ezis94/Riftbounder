@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Riftbounder.Core/Riftbounder.Core.csproj" />
+    <Project Path="src/Riftbounder.Engine/Riftbounder.Engine.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Riftbounder.Core.Tests/Riftbounder.Core.Tests.csproj" />
+    <Project Path="tests/Riftbounder.Engine.Tests/Riftbounder.Engine.Tests.csproj" />
+  </Folder>
+</Solution>
