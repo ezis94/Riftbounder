@@ -38,3 +38,15 @@ tests/
 docs/
   architecture.md
 ```
+
+## Sprint 2
+
+Sprint 2 adds the first rules-mapped turn controller and typed event journal.
+
+```powershell
+dotnet build Riftbounder.slnx --configuration Release
+dotnet test Riftbounder.slnx --configuration Release
+```
+
+See [`SPRINT-2.md`](SPRINT-2.md) and
+[`docs/rules-coverage.md`](docs/rules-coverage.md).
