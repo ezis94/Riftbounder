@@ -1,6 +1,7 @@
 
 using Riftbounder.Core.Runes;
 namespace Riftbounder.Core.Resources;
+
 public readonly record struct PowerRequirement
 {
     public PowerRequirement(int amount, Domain? domain)
