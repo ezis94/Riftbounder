@@ -57,3 +57,7 @@ Sprint 3 adds Rune Decks, runes on the board, ready/exhausted state,
 Awaken resolution, and actual Channel resolution.
 
 See [`SPRINT-3.md`](SPRINT-3.md).
+
+## Sprint 4
+
+Rune Pools, resource payment, and Basic Rune abilities. See `SPRINT-4.md`.

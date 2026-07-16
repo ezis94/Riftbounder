@@ -47,6 +47,9 @@ public sealed record RuneReadiedEvent(
     DateTimeOffset OccurredAt)
     : GameEvent(OccurredAt);
 
+
+public sealed record RunePoolEmptiedEvent(int TurnNumber, PlayerId PlayerId, string Checkpoint, DateTimeOffset OccurredAt) : GameEvent(OccurredAt);
+
 public sealed record CardDrawnEvent(
     int TurnNumber,
     PlayerId PlayerId,

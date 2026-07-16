@@ -1,6 +1,7 @@
 using Riftbounder.Core.Cards;
 using Riftbounder.Core.Identifiers;
 using Riftbounder.Core.Runes;
+using Riftbounder.Core.Resources;
 using Riftbounder.Engine.Events;
 using Riftbounder.Engine.Games;
 using Riftbounder.Engine.Turns;
@@ -207,6 +208,23 @@ public void AwakenPhase_ReadiesExhaustedRunes()
 
     Assert.Same(rune, readiedEvent.Rune);
     Assert.True(rune.IsReady);
+}
+
+
+[Fact]
+public void EndOfDrawPhase_EmptiesAllPlayersRunePools()
+{
+    TestContext context=CreateContext(); context.Game.AddEnergy(context.First.Id,2); context.Game.AddPower(context.Second.Id,PowerType.ForDomain(Domain.Order),1);
+    context.Controller.Start(); context.Controller.AdvanceToMainPhase();
+    Assert.Equal(0,context.First.RunePool.Energy); Assert.Empty(context.Second.RunePool.Power); Assert.Equal(2,context.Journal.Events.OfType<RunePoolEmptiedEvent>().Count());
+}
+
+[Fact]
+public void EndOfTurn_EmptiesResourcesAddedDuringMainPhase()
+{
+    TestContext context=CreateContext(); context.Controller.Start(); context.Controller.AdvanceToMainPhase(); context.Game.AddEnergy(context.First.Id,2);
+    context.Controller.EndMainPhase(); context.Controller.CompleteEndingPhase();
+    Assert.Equal(0,context.First.RunePool.Energy); Assert.Equal("EndOfTurn",context.Journal.Events.OfType<RunePoolEmptiedEvent>().Last().Checkpoint);
 }
 
     [Fact]

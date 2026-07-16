@@ -1,6 +1,7 @@
 using Riftbounder.Core.Identifiers;
 using Riftbounder.Core.Runes;
 using Riftbounder.Core.Zones;
+using Riftbounder.Engine.Resources;
 
 namespace Riftbounder.Engine.Games;
 
@@ -17,6 +18,7 @@ public sealed class Player
         Trash = new Zone(id, ZoneKind.Trash, $"{name}'s Trash");
         RuneDeck = new RuneZone(id, $"{name}'s Rune Deck");
         RunesInBase = new RuneZone(id, $"{name}'s Runes in Base");
+        RunePool = new RunePool();
     }
 
     public PlayerId Id { get; }
@@ -32,4 +34,6 @@ public sealed class Player
     public RuneZone RuneDeck { get; }
 
     public RuneZone RunesInBase { get; }
+
+    public RunePool RunePool { get; }
 }

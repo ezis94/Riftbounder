@@ -16,3 +16,12 @@ Canonical source: Riftbound Core Rules, updated 2026-03-30.
 | 431 | Burn Out | Not implemented | — |
 | 454–465 | Combat and scoring | Not implemented | — |
 | 480.7 / 481.7 | First-turn adjustments | Implemented | 2 |
+
+| 131 | Costs | Foundation implemented | 4 |
+| 135.2.e.5 | Any-domain / Universal Power | Implemented | 4 |
+| 160–167 | Rune Pools | Implemented | 4 |
+| 163.2 | Basic Rune abilities | Atomic operations | 4 |
+| 166 | Pool emptying | Implemented | 4 |
+| 357.1 | Resource payment | Foundation implemented | 4 |
+| 416 | Recycle | Runes implemented | 4 |
+| 429 | Add | Implemented | 4 |

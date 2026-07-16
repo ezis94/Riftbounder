@@ -87,6 +87,7 @@ public sealed class TurnController
             case TurnPhase.Channel:
                 TransitionTo(TurnPhase.Draw);
                 ResolveTurnDraw();
+                EmptyAllRunePools("EndOfDrawPhase");
                 break;
 
             case TurnPhase.Draw:
@@ -130,6 +131,8 @@ public sealed class TurnController
     public void CompleteEndingPhase()
     {
         EnsurePhase(TurnPhase.Ending);
+
+        EmptyAllRunePools("EndOfTurn");
 
         _turnPlayerIndex = (_turnPlayerIndex + 1) % _turnOrder.Count;
         State.TurnNumber++;
@@ -180,6 +183,16 @@ public sealed class TurnController
                 GetUtcNow()));
         }
     }
+
+
+private void EmptyAllRunePools(string checkpoint)
+{
+    foreach(Player player in _game.Players)
+    {
+        if(!_game.EmptyRunePool(player.Id)) continue;
+        _journal.Append(new RunePoolEmptiedEvent(State.TurnNumber,player.Id,checkpoint,GetUtcNow()));
+    }
+}
 
     private void ResolveTurnDraw()
     {
