@@ -50,3 +50,10 @@ dotnet test Riftbounder.slnx --configuration Release
 
 See [`SPRINT-2.md`](SPRINT-2.md) and
 [`docs/rules-coverage.md`](docs/rules-coverage.md).
+
+## Sprint 3
+
+Sprint 3 adds Rune Decks, runes on the board, ready/exhausted state,
+Awaken resolution, and actual Channel resolution.
+
+See [`SPRINT-3.md`](SPRINT-3.md).

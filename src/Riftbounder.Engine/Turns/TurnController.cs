@@ -1,4 +1,5 @@
 using Riftbounder.Core.Identifiers;
+using Riftbounder.Core.Runes;
 using Riftbounder.Engine.Events;
 using Riftbounder.Engine.Games;
 using Riftbounder.Engine.Results;
@@ -74,16 +75,13 @@ public sealed class TurnController
         switch (State.Phase)
         {
             case TurnPhase.Awaken:
+                ResolveAwaken();
                 TransitionTo(TurnPhase.Beginning);
                 break;
 
             case TurnPhase.Beginning:
                 TransitionTo(TurnPhase.Channel);
-                _journal.Append(new ChannelRunesRequestedEvent(
-                    State.TurnNumber,
-                    RequireTurnPlayer(),
-                    GetChannelCount(),
-                    GetUtcNow()));
+                ResolveChannel();
                 break;
 
             case TurnPhase.Channel:
@@ -143,6 +141,44 @@ public sealed class TurnController
             State.TurnNumber,
             RequireTurnPlayer(),
             GetUtcNow()));
+    }
+
+    private void ResolveAwaken()
+    {
+        PlayerId playerId = RequireTurnPlayer();
+
+        foreach (Rune rune in _game.ReadyAllRunes(playerId))
+        {
+            _journal.Append(new RuneReadiedEvent(
+                State.TurnNumber,
+                playerId,
+                rune,
+                GetUtcNow()));
+        }
+    }
+
+    private void ResolveChannel()
+    {
+        PlayerId playerId = RequireTurnPlayer();
+        int requestedCount = GetChannelCount();
+
+        _journal.Append(new ChannelRunesRequestedEvent(
+            State.TurnNumber,
+            playerId,
+            requestedCount,
+            GetUtcNow()));
+
+        ChannelResult result = _game.ChannelRunes(playerId, requestedCount);
+
+        foreach (Rune rune in result.ChanneledRunes)
+        {
+            _journal.Append(new RuneChanneledEvent(
+                State.TurnNumber,
+                playerId,
+                rune,
+                rune.IsReady,
+                GetUtcNow()));
+        }
     }
 
     private void ResolveTurnDraw()

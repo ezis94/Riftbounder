@@ -1,5 +1,6 @@
 using Riftbounder.Core.Cards;
 using Riftbounder.Core.Identifiers;
+using Riftbounder.Core.Runes;
 using Riftbounder.Engine.Events;
 using Riftbounder.Engine.Games;
 using Riftbounder.Engine.Turns;
@@ -153,6 +154,60 @@ public sealed class TurnControllerTests
         Assert.Equal(context.Second.Id, channelEvent.PlayerId);
         Assert.Equal(2, channelEvent.RuneCount);
     }
+
+[Fact]
+public void ChannelPhase_MovesRequestedRunesToBaseReady()
+{
+    TestContext context = CreateContext();
+    Rune first = Rune.Create(context.First.Id, Domain.Mind);
+    Rune second = Rune.Create(context.First.Id, Domain.Order);
+    context.Game.RegisterRune(first, context.First.RuneDeck);
+    context.Game.RegisterRune(second, context.First.RuneDeck);
+
+    context.Controller.Start();
+    context.Controller.AdvanceToMainPhase();
+
+    Assert.Empty(context.First.RuneDeck.Runes);
+    Assert.Equal(2, context.First.RunesInBase.Count);
+    Assert.All(context.First.RunesInBase.Runes, rune => Assert.True(rune.IsReady));
+    Assert.Equal(
+        2,
+        context.Journal.Events.OfType<RuneChanneledEvent>().Count());
+}
+
+[Fact]
+public void ChannelPhase_WithTooFewRunes_ChannelsAsManyAsPossible()
+{
+    TestContext context = CreateContext();
+    Rune rune = Rune.Create(context.First.Id, Domain.Mind);
+    context.Game.RegisterRune(rune, context.First.RuneDeck);
+
+    context.Controller.Start();
+    context.Controller.AdvanceToMainPhase();
+
+    Assert.Empty(context.First.RuneDeck.Runes);
+    Assert.Single(context.First.RunesInBase.Runes);
+    Assert.Single(context.Journal.Events.OfType<RuneChanneledEvent>());
+}
+
+[Fact]
+public void AwakenPhase_ReadiesExhaustedRunes()
+{
+    TestContext context = CreateContext();
+    Rune rune = Rune.Create(context.First.Id, Domain.Mind);
+    context.Game.RegisterRune(rune, context.First.RuneDeck);
+    context.Game.ChannelRunes(context.First.Id, 1);
+    rune.Exhaust();
+
+    context.Controller.Start();
+    context.Controller.AdvanceStartOfTurn();
+
+    RuneReadiedEvent readiedEvent = Assert.Single(
+        context.Journal.Events.OfType<RuneReadiedEvent>());
+
+    Assert.Same(rune, readiedEvent.Rune);
+    Assert.True(rune.IsReady);
+}
 
     [Fact]
     public void EndMainPhase_RemovesPriorityAndEntersEnding()

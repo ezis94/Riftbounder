@@ -1,5 +1,6 @@
 using Riftbounder.Core.Cards;
 using Riftbounder.Core.Identifiers;
+using Riftbounder.Core.Runes;
 using Riftbounder.Engine.Turns;
 
 namespace Riftbounder.Engine.Events;
@@ -28,6 +29,21 @@ public sealed record ChannelRunesRequestedEvent(
     int TurnNumber,
     PlayerId PlayerId,
     int RuneCount,
+    DateTimeOffset OccurredAt)
+    : GameEvent(OccurredAt);
+
+public sealed record RuneChanneledEvent(
+    int TurnNumber,
+    PlayerId PlayerId,
+    Rune Rune,
+    bool EnteredReady,
+    DateTimeOffset OccurredAt)
+    : GameEvent(OccurredAt);
+
+public sealed record RuneReadiedEvent(
+    int TurnNumber,
+    PlayerId PlayerId,
+    Rune Rune,
     DateTimeOffset OccurredAt)
     : GameEvent(OccurredAt);
 
