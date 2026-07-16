@@ -27,3 +27,9 @@ Canonical source: Riftbound Core Rules, updated 2026-03-30.
 | 429 | Add | Implemented | 4 |
 
 | 327–335 | Chain storage and LIFO resolution primitive | Partial | AG-005 |
+
+| 333.1 | Initial Chain Priority | Implemented | AG-006 |
+| 337.1.c.3 | Priority to newest item controller | Implemented | AG-006 |
+| 338.1.c | Pass Priority | Implemented | AG-006 |
+| 339 | All-player pass detection | Implemented | AG-006 |
+| 340 | Resolve newest item and continue/close | Implemented foundation | AG-006 |
