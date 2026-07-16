@@ -1,5 +1,6 @@
 
 namespace Riftbounder.Core.Resources;
+
 public sealed class ResourceCost
 {
     public ResourceCost(int energy, IReadOnlyList<PowerRequirement>? powerRequirements = null)

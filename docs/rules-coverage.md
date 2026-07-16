@@ -25,3 +25,5 @@ Canonical source: Riftbound Core Rules, updated 2026-03-30.
 | 357.1 | Resource payment | Foundation implemented | 4 |
 | 416 | Recycle | Runes implemented | 4 |
 | 429 | Add | Implemented | 4 |
+
+| 327–335 | Chain storage and LIFO resolution primitive | Partial | AG-005 |

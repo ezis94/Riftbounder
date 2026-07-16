@@ -1,7 +1,7 @@
 using Riftbounder.Core.Cards;
 using Riftbounder.Core.Identifiers;
-using Riftbounder.Core.Runes;
 using Riftbounder.Core.Resources;
+using Riftbounder.Core.Runes;
 using Riftbounder.Core.Zones;
 using Riftbounder.Engine.Results;
 
@@ -111,26 +111,26 @@ public sealed class Game
     }
 
 
-public RuneAbilityResult ExhaustRuneForEnergy(PlayerId playerId, RuneId runeId)
-{
-    Player player=GetPlayer(playerId); Rune rune=GetRuneInBase(player,runeId);
-    if(!rune.IsReady) throw new InvalidOperationException($"Rune {runeId} must be ready to add Energy.");
-    rune.Exhaust(); player.RunePool.AddEnergy(1); return new RuneAbilityResult(rune,1,null);
-}
+    public RuneAbilityResult ExhaustRuneForEnergy(PlayerId playerId, RuneId runeId)
+    {
+        Player player = GetPlayer(playerId); Rune rune = GetRuneInBase(player, runeId);
+        if (!rune.IsReady) throw new InvalidOperationException($"Rune {runeId} must be ready to add Energy.");
+        rune.Exhaust(); player.RunePool.AddEnergy(1); return new RuneAbilityResult(rune, 1, null);
+    }
 
-public RuneAbilityResult RecycleRuneForPower(PlayerId playerId, RuneId runeId)
-{
-    Player player=GetPlayer(playerId); Rune rune=GetRuneInBase(player,runeId);
-    if(!player.RunesInBase.Remove(runeId,out Rune? removed) || removed is null) throw new InvalidOperationException();
-    rune.Exhaust(); player.RuneDeck.AddToBottom(rune);
-    PowerType type=PowerType.ForDomain(rune.Domain); player.RunePool.AddPower(type,1);
-    return new RuneAbilityResult(rune,0,type);
-}
+    public RuneAbilityResult RecycleRuneForPower(PlayerId playerId, RuneId runeId)
+    {
+        Player player = GetPlayer(playerId); Rune rune = GetRuneInBase(player, runeId);
+        if (!player.RunesInBase.Remove(runeId, out Rune? removed) || removed is null) throw new InvalidOperationException();
+        rune.Exhaust(); player.RuneDeck.AddToBottom(rune);
+        PowerType type = PowerType.ForDomain(rune.Domain); player.RunePool.AddPower(type, 1);
+        return new RuneAbilityResult(rune, 0, type);
+    }
 
-public void AddEnergy(PlayerId playerId,int amount) => GetPlayer(playerId).RunePool.AddEnergy(amount);
-public void AddPower(PlayerId playerId,PowerType powerType,int amount) => GetPlayer(playerId).RunePool.AddPower(powerType,amount);
-public void PayResources(PlayerId playerId,ResourceCost cost,ResourcePayment payment) => GetPlayer(playerId).RunePool.Pay(cost,payment);
-public bool EmptyRunePool(PlayerId playerId) => GetPlayer(playerId).RunePool.Empty();
+    public void AddEnergy(PlayerId playerId, int amount) => GetPlayer(playerId).RunePool.AddEnergy(amount);
+    public void AddPower(PlayerId playerId, PowerType powerType, int amount) => GetPlayer(playerId).RunePool.AddPower(powerType, amount);
+    public void PayResources(PlayerId playerId, ResourceCost cost, ResourcePayment payment) => GetPlayer(playerId).RunePool.Pay(cost, payment);
+    public bool EmptyRunePool(PlayerId playerId) => GetPlayer(playerId).RunePool.Empty();
 
     public IReadOnlyList<Rune> ReadyAllRunes(PlayerId playerId)
     {
@@ -259,9 +259,9 @@ public bool EmptyRunePool(PlayerId playerId) => GetPlayer(playerId).RunePool.Emp
         _registeredRuneZones.SingleOrDefault(zone => zone.Contains(runeId));
 
 
-private static Rune GetRuneInBase(Player player,RuneId runeId) =>
-    player.RunesInBase.Runes.SingleOrDefault(r=>r.Id==runeId)
-    ?? throw new InvalidOperationException($"Rune {runeId} is not in player {player.Id}'s Base.");
+    private static Rune GetRuneInBase(Player player, RuneId runeId) =>
+        player.RunesInBase.Runes.SingleOrDefault(r => r.Id == runeId)
+        ?? throw new InvalidOperationException($"Rune {runeId} is not in player {player.Id}'s Base.");
 
     private void EnsureRegisteredZone(Zone zone)
     {

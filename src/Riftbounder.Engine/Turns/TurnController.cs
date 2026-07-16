@@ -185,14 +185,14 @@ public sealed class TurnController
     }
 
 
-private void EmptyAllRunePools(string checkpoint)
-{
-    foreach(Player player in _game.Players)
+    private void EmptyAllRunePools(string checkpoint)
     {
-        if(!_game.EmptyRunePool(player.Id)) continue;
-        _journal.Append(new RunePoolEmptiedEvent(State.TurnNumber,player.Id,checkpoint,GetUtcNow()));
+        foreach (Player player in _game.Players)
+        {
+            if (!_game.EmptyRunePool(player.Id)) continue;
+            _journal.Append(new RunePoolEmptiedEvent(State.TurnNumber, player.Id, checkpoint, GetUtcNow()));
+        }
     }
-}
 
     private void ResolveTurnDraw()
     {

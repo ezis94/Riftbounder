@@ -61,3 +61,8 @@ See [`SPRINT-3.md`](SPRINT-3.md).
 ## Sprint 4
 
 Rune Pools, resource payment, and Basic Rune abilities. See `SPRINT-4.md`.
+
+## AG-005
+
+AG-005 adds the generic transactional Chain and the first GitHub Actions
+workflow. See [`AG-005.md`](AG-005.md).
