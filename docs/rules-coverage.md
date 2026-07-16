@@ -33,3 +33,8 @@ Canonical source: Riftbound Core Rules, updated 2026-03-30.
 | 338.1.c | Pass Priority | Implemented | AG-006 |
 | 339 | All-player pass detection | Implemented | AG-006 |
 | 340 | Resolve newest item and continue/close | Implemented foundation | AG-006 |
+
+| 350–354 | Start playing a spell from Hand | Partial: Hand only | AG-007 |
+| 356–357 | Printed Energy/Power cost payment | Implemented foundation | AG-007 |
+| 358 | Play legality | Partial: ownership, source, permission, payment | AG-007 |
+| 359.1 / 359.3 | Finalized spell Chain item | Implemented foundation | AG-007 |

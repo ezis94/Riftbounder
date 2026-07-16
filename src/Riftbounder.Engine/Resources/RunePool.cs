@@ -40,6 +40,23 @@ public sealed class RunePool
         Energy -= payment.Energy;
         foreach (var spend in payment.PowerSpends) if (spend.Amount > 0) _power[spend.PowerType] -= spend.Amount;
     }
+    public void Refund(ResourcePayment payment)
+    {
+        ArgumentNullException.ThrowIfNull(payment);
+
+        Energy += payment.Energy;
+
+        foreach (PowerSpend spend in payment.PowerSpends)
+        {
+            if (spend.Amount == 0)
+            {
+                continue;
+            }
+
+            _power[spend.PowerType] = GetPower(spend.PowerType) + spend.Amount;
+        }
+    }
+
     public bool Empty()
     {
         bool changed = Energy > 0 || _power.Values.Any(v => v > 0); Energy = 0; _power.Clear(); return changed;

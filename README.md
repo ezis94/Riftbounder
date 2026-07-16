@@ -67,7 +67,7 @@ Rune Pools, resource payment, and Basic Rune abilities. See `SPRINT-4.md`.
 AG-005 adds the generic transactional Chain and the first GitHub Actions
 workflow. See [`AG-005.md`](AG-005.md).
 
-## AG-006
+## AG-007
 
-AG-006 adds rules-accurate Chain Priority and pass handling. See
-[`AG-006.md`](AG-006.md).
+AG-007 adds spell play finalization from Hand into a finalized Chain item.
+See [`AG-007.md`](AG-007.md).
