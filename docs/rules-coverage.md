@@ -42,3 +42,7 @@ Canonical source: Riftbound Core Rules, updated 2026-03-30.
 | 108.2.b | Resolved spells enter owner Trash | Implemented | AG-008 |
 | 359.3.c–d | Finalized spell resolution lifecycle | Implemented foundation | AG-008 |
 | 359.3.e.10–11 | No-effect and partial spell resolution | Executor contract defined | AG-008 |
+
+| Target selection | Immutable finalized target snapshots | Implemented foundation | AG-009 |
+| Target resolution | Recheck kind/location, not Deflect | Implemented foundation | AG-009 |
+| Deflect | Adds 1 any-domain Power per chosen Deflect target | Implemented foundation | AG-009 |

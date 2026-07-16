@@ -1,4 +1,6 @@
 using Riftbounder.Core.Cards;
+using Riftbounder.Core.Resources;
+using Riftbounder.Core.Targets;
 using Riftbounder.Core.Zones;
 using Riftbounder.Engine.Cards;
 using Riftbounder.Engine.Chains;
@@ -13,12 +15,14 @@ public sealed class PlayCardService
     private readonly Chain _chain;
     private readonly ChainPriorityManager _priorityManager;
     private readonly IPlayCardPermission _permission;
+    private readonly IPlayCostResolver _costResolver;
 
     public PlayCardService(
         Game game,
         Chain chain,
         ChainPriorityManager priorityManager,
-        IPlayCardPermission permission)
+        IPlayCardPermission permission,
+        IPlayCostResolver? costResolver = null)
     {
         ArgumentNullException.ThrowIfNull(game);
         ArgumentNullException.ThrowIfNull(chain);
@@ -29,6 +33,7 @@ public sealed class PlayCardService
         _chain = chain;
         _priorityManager = priorityManager;
         _permission = permission;
+        _costResolver = costResolver ?? new PrintedPlayCostResolver();
     }
 
     public PlayCardResult Play(PlayCardRequest request)
@@ -64,8 +69,15 @@ public sealed class PlayCardService
                 PlayCardFailure.PlayerNotPermitted);
         }
 
+        IReadOnlyList<TargetSnapshot> targets =
+            request.Targets?.ToArray()
+            ?? Array.Empty<TargetSnapshot>();
+
+        ResourceCost totalCost =
+            _costResolver.GetTotalCost(card, targets);
+
         if (!player.RunePool.CanPay(
-                card.Definition.Cost,
+                totalCost,
                 request.Payment))
         {
             return PlayCardResult.Failed(
@@ -84,7 +96,8 @@ public sealed class PlayCardService
         PlayCardChainItem item = PlayCardChainItem.Create(
             request.PlayerId,
             removed,
-            request.Payment);
+            request.Payment,
+            targets);
 
         bool paymentCompleted = false;
         bool pushed = false;
@@ -92,7 +105,7 @@ public sealed class PlayCardService
         try
         {
             player.RunePool.Pay(
-                card.Definition.Cost,
+                totalCost,
                 request.Payment);
             paymentCompleted = true;
 

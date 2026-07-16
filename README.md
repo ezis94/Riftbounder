@@ -76,3 +76,9 @@ See [`AG-007.md`](AG-007.md).
 
 AG-008 resolves finalized spell Chain items and places successfully executed
 spell cards in their owner's Trash. See [`AG-008.md`](AG-008.md).
+
+## AG-009
+
+AG-009 adds immutable target snapshots, selection and resolution validation,
+battlefield-only target rules, and Deflect cost modifiers.
+See [`AG-009.md`](AG-009.md).
