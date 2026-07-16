@@ -38,3 +38,7 @@ Canonical source: Riftbound Core Rules, updated 2026-03-30.
 | 356–357 | Printed Energy/Power cost payment | Implemented foundation | AG-007 |
 | 358 | Play legality | Partial: ownership, source, permission, payment | AG-007 |
 | 359.1 / 359.3 | Finalized spell Chain item | Implemented foundation | AG-007 |
+
+| 108.2.b | Resolved spells enter owner Trash | Implemented | AG-008 |
+| 359.3.c–d | Finalized spell resolution lifecycle | Implemented foundation | AG-008 |
+| 359.3.e.10–11 | No-effect and partial spell resolution | Executor contract defined | AG-008 |

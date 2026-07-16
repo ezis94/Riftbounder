@@ -71,3 +71,8 @@ workflow. See [`AG-005.md`](AG-005.md).
 
 AG-007 adds spell play finalization from Hand into a finalized Chain item.
 See [`AG-007.md`](AG-007.md).
+
+## AG-008
+
+AG-008 resolves finalized spell Chain items and places successfully executed
+spell cards in their owner's Trash. See [`AG-008.md`](AG-008.md).

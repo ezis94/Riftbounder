@@ -151,6 +151,21 @@ public sealed class Game
         return readiedRunes;
     }
 
+    public void PutResolvedSpellInOwnersTrash(Card card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+
+        Zone? currentZone = FindZoneContaining(card.Id);
+        if (currentZone is not null)
+        {
+            throw new InvalidOperationException(
+                $"Resolved spell {card.Id} is still registered in zone '{currentZone.Name}'.");
+        }
+
+        Player owner = GetPlayer(card.OwnerId);
+        owner.Trash.AddToTop(card);
+    }
+
     public void RegisterCard(Card card, Zone destination)
     {
         ArgumentNullException.ThrowIfNull(card);
