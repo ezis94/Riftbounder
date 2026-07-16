@@ -10,7 +10,8 @@ public sealed class BoardState
     public void Register(
         Card card,
         CardPosition position,
-        bool hasDeflect = false)
+        bool hasDeflect = false,
+        bool isReady = true)
     {
         ArgumentNullException.ThrowIfNull(card);
 
@@ -23,7 +24,8 @@ public sealed class BoardState
         _cards[card.Id] = new BoardCardState(
             card,
             position,
-            hasDeflect);
+            hasDeflect,
+            isReady);
     }
 
     public BoardCardState Get(CardId cardId) =>

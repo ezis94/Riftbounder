@@ -8,13 +8,15 @@ public sealed class BoardCardState
     public BoardCardState(
         Card card,
         CardPosition position,
-        bool hasDeflect = false)
+        bool hasDeflect = false,
+        bool isReady = true)
     {
         ArgumentNullException.ThrowIfNull(card);
 
         Card = card;
         Position = position;
         HasDeflect = hasDeflect;
+        IsReady = isReady;
     }
 
     public Card Card { get; }
@@ -25,9 +27,33 @@ public sealed class BoardCardState
 
     public bool HasDeflect { get; private set; }
 
+    public bool IsReady { get; private set; }
+
     public void MoveTo(CardPosition position) =>
         Position = position;
 
     public void SetDeflect(bool hasDeflect) =>
         HasDeflect = hasDeflect;
+
+    public bool Ready()
+    {
+        if (IsReady)
+        {
+            return false;
+        }
+
+        IsReady = true;
+        return true;
+    }
+
+    public bool Exhaust()
+    {
+        if (!IsReady)
+        {
+            return false;
+        }
+
+        IsReady = false;
+        return true;
+    }
 }
