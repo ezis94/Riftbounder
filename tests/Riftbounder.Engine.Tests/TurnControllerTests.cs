@@ -1,7 +1,7 @@
 using Riftbounder.Core.Cards;
 using Riftbounder.Core.Identifiers;
-using Riftbounder.Core.Resources;
 using Riftbounder.Core.Runes;
+using Riftbounder.Core.Resources;
 using Riftbounder.Engine.Events;
 using Riftbounder.Engine.Games;
 using Riftbounder.Engine.Turns;
@@ -156,76 +156,76 @@ public sealed class TurnControllerTests
         Assert.Equal(2, channelEvent.RuneCount);
     }
 
-    [Fact]
-    public void ChannelPhase_MovesRequestedRunesToBaseReady()
-    {
-        TestContext context = CreateContext();
-        Rune first = Rune.Create(context.First.Id, Domain.Mind);
-        Rune second = Rune.Create(context.First.Id, Domain.Order);
-        context.Game.RegisterRune(first, context.First.RuneDeck);
-        context.Game.RegisterRune(second, context.First.RuneDeck);
+[Fact]
+public void ChannelPhase_MovesRequestedRunesToBaseReady()
+{
+    TestContext context = CreateContext();
+    Rune first = Rune.Create(context.First.Id, Domain.Mind);
+    Rune second = Rune.Create(context.First.Id, Domain.Order);
+    context.Game.RegisterRune(first, context.First.RuneDeck);
+    context.Game.RegisterRune(second, context.First.RuneDeck);
 
-        context.Controller.Start();
-        context.Controller.AdvanceToMainPhase();
+    context.Controller.Start();
+    context.Controller.AdvanceToMainPhase();
 
-        Assert.Empty(context.First.RuneDeck.Runes);
-        Assert.Equal(2, context.First.RunesInBase.Count);
-        Assert.All(context.First.RunesInBase.Runes, rune => Assert.True(rune.IsReady));
-        Assert.Equal(
-            2,
-            context.Journal.Events.OfType<RuneChanneledEvent>().Count());
-    }
+    Assert.Empty(context.First.RuneDeck.Runes);
+    Assert.Equal(2, context.First.RunesInBase.Count);
+    Assert.All(context.First.RunesInBase.Runes, rune => Assert.True(rune.IsReady));
+    Assert.Equal(
+        2,
+        context.Journal.Events.OfType<RuneChanneledEvent>().Count());
+}
 
-    [Fact]
-    public void ChannelPhase_WithTooFewRunes_ChannelsAsManyAsPossible()
-    {
-        TestContext context = CreateContext();
-        Rune rune = Rune.Create(context.First.Id, Domain.Mind);
-        context.Game.RegisterRune(rune, context.First.RuneDeck);
+[Fact]
+public void ChannelPhase_WithTooFewRunes_ChannelsAsManyAsPossible()
+{
+    TestContext context = CreateContext();
+    Rune rune = Rune.Create(context.First.Id, Domain.Mind);
+    context.Game.RegisterRune(rune, context.First.RuneDeck);
 
-        context.Controller.Start();
-        context.Controller.AdvanceToMainPhase();
+    context.Controller.Start();
+    context.Controller.AdvanceToMainPhase();
 
-        Assert.Empty(context.First.RuneDeck.Runes);
-        Assert.Single(context.First.RunesInBase.Runes);
-        Assert.Single(context.Journal.Events.OfType<RuneChanneledEvent>());
-    }
+    Assert.Empty(context.First.RuneDeck.Runes);
+    Assert.Single(context.First.RunesInBase.Runes);
+    Assert.Single(context.Journal.Events.OfType<RuneChanneledEvent>());
+}
 
-    [Fact]
-    public void AwakenPhase_ReadiesExhaustedRunes()
-    {
-        TestContext context = CreateContext();
-        Rune rune = Rune.Create(context.First.Id, Domain.Mind);
-        context.Game.RegisterRune(rune, context.First.RuneDeck);
-        context.Game.ChannelRunes(context.First.Id, 1);
-        rune.Exhaust();
+[Fact]
+public void AwakenPhase_ReadiesExhaustedRunes()
+{
+    TestContext context = CreateContext();
+    Rune rune = Rune.Create(context.First.Id, Domain.Mind);
+    context.Game.RegisterRune(rune, context.First.RuneDeck);
+    context.Game.ChannelRunes(context.First.Id, 1);
+    rune.Exhaust();
 
-        context.Controller.Start();
-        context.Controller.AdvanceStartOfTurn();
+    context.Controller.Start();
+    context.Controller.AdvanceStartOfTurn();
 
-        RuneReadiedEvent readiedEvent = Assert.Single(
-            context.Journal.Events.OfType<RuneReadiedEvent>());
+    RuneReadiedEvent readiedEvent = Assert.Single(
+        context.Journal.Events.OfType<RuneReadiedEvent>());
 
-        Assert.Same(rune, readiedEvent.Rune);
-        Assert.True(rune.IsReady);
-    }
+    Assert.Same(rune, readiedEvent.Rune);
+    Assert.True(rune.IsReady);
+}
 
 
-    [Fact]
-    public void EndOfDrawPhase_EmptiesAllPlayersRunePools()
-    {
-        TestContext context = CreateContext(); context.Game.AddEnergy(context.First.Id, 2); context.Game.AddPower(context.Second.Id, PowerType.ForDomain(Domain.Order), 1);
-        context.Controller.Start(); context.Controller.AdvanceToMainPhase();
-        Assert.Equal(0, context.First.RunePool.Energy); Assert.Empty(context.Second.RunePool.Power); Assert.Equal(2, context.Journal.Events.OfType<RunePoolEmptiedEvent>().Count());
-    }
+[Fact]
+public void EndOfDrawPhase_EmptiesAllPlayersRunePools()
+{
+    TestContext context=CreateContext(); context.Game.AddEnergy(context.First.Id,2); context.Game.AddPower(context.Second.Id,PowerType.ForDomain(Domain.Order),1);
+    context.Controller.Start(); context.Controller.AdvanceToMainPhase();
+    Assert.Equal(0,context.First.RunePool.Energy); Assert.Empty(context.Second.RunePool.Power); Assert.Equal(2,context.Journal.Events.OfType<RunePoolEmptiedEvent>().Count());
+}
 
-    [Fact]
-    public void EndOfTurn_EmptiesResourcesAddedDuringMainPhase()
-    {
-        TestContext context = CreateContext(); context.Controller.Start(); context.Controller.AdvanceToMainPhase(); context.Game.AddEnergy(context.First.Id, 2);
-        context.Controller.EndMainPhase(); context.Controller.CompleteEndingPhase();
-        Assert.Equal(0, context.First.RunePool.Energy); Assert.Equal("EndOfTurn", context.Journal.Events.OfType<RunePoolEmptiedEvent>().Last().Checkpoint);
-    }
+[Fact]
+public void EndOfTurn_EmptiesResourcesAddedDuringMainPhase()
+{
+    TestContext context=CreateContext(); context.Controller.Start(); context.Controller.AdvanceToMainPhase(); context.Game.AddEnergy(context.First.Id,2);
+    context.Controller.EndMainPhase(); context.Controller.CompleteEndingPhase();
+    Assert.Equal(0,context.First.RunePool.Energy); Assert.Equal("EndOfTurn",context.Journal.Events.OfType<RunePoolEmptiedEvent>().Last().Checkpoint);
+}
 
     [Fact]
     public void EndMainPhase_RemovesPriorityAndEntersEnding()

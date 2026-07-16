@@ -1,3 +1,4 @@
+using Riftbounder.Core.Effects;
 using Riftbounder.Core.Resources;
 
 namespace Riftbounder.Core.Cards;
@@ -8,7 +9,8 @@ public sealed class CardDefinition
         string id,
         string name,
         CardType cardType,
-        ResourceCost cost)
+        ResourceCost cost,
+        IReadOnlyList<SpellInstructionDefinition>? instructions = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
@@ -18,6 +20,8 @@ public sealed class CardDefinition
         Name = name;
         CardType = cardType;
         Cost = cost;
+        Instructions = instructions?.ToArray()
+            ?? Array.Empty<SpellInstructionDefinition>();
     }
 
     public string Id { get; }
@@ -27,4 +31,6 @@ public sealed class CardDefinition
     public CardType CardType { get; }
 
     public ResourceCost Cost { get; }
+
+    public IReadOnlyList<SpellInstructionDefinition> Instructions { get; }
 }

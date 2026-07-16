@@ -46,3 +46,6 @@ Canonical source: Riftbound Core Rules, updated 2026-03-30.
 | Target selection | Immutable finalized target snapshots | Implemented foundation | AG-009 |
 | Target resolution | Recheck kind/location, not Deflect | Implemented foundation | AG-009 |
 | Deflect | Adds 1 any-domain Power per chosen Deflect target | Implemented foundation | AG-009 |
+
+| Partial resolution | Resolve instructions using remaining eligible targets | Implemented foundation | AG-010 |
+| Invalid targets | Skip invalid targets; spell still completes | Implemented foundation | AG-010 |

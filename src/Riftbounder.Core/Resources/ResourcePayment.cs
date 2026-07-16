@@ -1,6 +1,5 @@
 
 namespace Riftbounder.Core.Resources;
-
 public sealed class ResourcePayment
 {
     public ResourcePayment(int energy, IReadOnlyList<PowerSpend>? powerSpends = null)

@@ -1,7 +1,6 @@
 
 using Riftbounder.Core.Runes;
 namespace Riftbounder.Core.Resources;
-
 public readonly record struct PowerType
 {
     private PowerType(Domain? domain) => Domain = domain;

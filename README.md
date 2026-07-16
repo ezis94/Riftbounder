@@ -82,3 +82,8 @@ spell cards in their owner's Trash. See [`AG-008.md`](AG-008.md).
 AG-009 adds immutable target snapshots, selection and resolution validation,
 battlefield-only target rules, and Deflect cost modifiers.
 See [`AG-009.md`](AG-009.md).
+
+## AG-010
+
+AG-010 adds data-defined spell instructions and partial targeted resolution.
+See [`AG-010.md`](AG-010.md).
