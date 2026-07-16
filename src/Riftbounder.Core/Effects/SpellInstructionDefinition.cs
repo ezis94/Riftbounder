@@ -4,7 +4,8 @@ public sealed record SpellInstructionDefinition
 {
     public SpellInstructionDefinition(
         string id,
-        IReadOnlyList<int> targetIndexes)
+        IReadOnlyList<int> targetIndexes,
+        int amount = 0)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
         ArgumentNullException.ThrowIfNull(targetIndexes);
@@ -16,11 +17,21 @@ public sealed record SpellInstructionDefinition
                 "Target indexes cannot be negative.");
         }
 
+        if (amount < 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(amount),
+                "Instruction amount cannot be negative.");
+        }
+
         Id = id;
         TargetIndexes = targetIndexes.ToArray();
+        Amount = amount;
     }
 
     public string Id { get; }
 
     public IReadOnlyList<int> TargetIndexes { get; }
+
+    public int Amount { get; }
 }
