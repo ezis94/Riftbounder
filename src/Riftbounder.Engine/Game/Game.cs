@@ -3,6 +3,7 @@ using Riftbounder.Core.Identifiers;
 using Riftbounder.Core.Resources;
 using Riftbounder.Core.Runes;
 using Riftbounder.Core.Zones;
+using Riftbounder.Engine.Board;
 using Riftbounder.Engine.Results;
 
 namespace Riftbounder.Engine.Games;
@@ -29,14 +30,13 @@ public sealed class Game
             [secondPlayer.Id] = secondPlayer
         };
 
+        Board = new GameBoard(firstPlayer, secondPlayer);
+
         _registeredZones =
         [
-            firstPlayer.MainDeck,
-            firstPlayer.Hand,
-            firstPlayer.Trash,
-            secondPlayer.MainDeck,
-            secondPlayer.Hand,
-            secondPlayer.Trash
+            .. firstPlayer.CardZones,
+            .. secondPlayer.CardZones,
+            .. Board.Battlefields
         ];
 
         _registeredRuneZones =
@@ -49,6 +49,10 @@ public sealed class Game
     }
 
     public IReadOnlyCollection<Player> Players => _players.Values;
+
+    public GameBoard Board { get; }
+
+    public IReadOnlyList<Zone> CardZones => _registeredZones;
 
     public Player GetPlayer(PlayerId playerId) =>
         _players.TryGetValue(playerId, out Player? player)

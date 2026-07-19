@@ -13,11 +13,38 @@ public sealed class Player
 
         Id = id;
         Name = name;
-        MainDeck = new Zone(id, ZoneKind.MainDeck, $"{name}'s Main Deck");
-        Hand = new Zone(id, ZoneKind.Hand, $"{name}'s Hand");
-        Trash = new Zone(id, ZoneKind.Trash, $"{name}'s Trash");
-        RuneDeck = new RuneZone(id, $"{name}'s Rune Deck");
-        RunesInBase = new RuneZone(id, $"{name}'s Runes in Base");
+
+        MainDeck = new Zone(
+            id,
+            ZoneKind.MainDeck,
+            $"{name}'s Main Deck");
+        Hand = new Zone(
+            id,
+            ZoneKind.Hand,
+            $"{name}'s Hand");
+        Base = new Zone(
+            id,
+            ZoneKind.Base,
+            $"{name}'s Base");
+        Hidden = new Zone(
+            id,
+            ZoneKind.Hidden,
+            $"{name}'s Hidden Zone");
+        Trash = new Zone(
+            id,
+            ZoneKind.Trash,
+            $"{name}'s Trash");
+        Banish = new Zone(
+            id,
+            ZoneKind.Banish,
+            $"{name}'s Banish Zone");
+
+        RuneDeck = new RuneZone(
+            id,
+            $"{name}'s Rune Deck");
+        RunesInBase = new RuneZone(
+            id,
+            $"{name}'s Runes in Base");
         RunePool = new RunePool();
     }
 
@@ -29,11 +56,27 @@ public sealed class Player
 
     public Zone Hand { get; }
 
+    public Zone Base { get; }
+
+    public Zone Hidden { get; }
+
     public Zone Trash { get; }
+
+    public Zone Banish { get; }
 
     public RuneZone RuneDeck { get; }
 
     public RuneZone RunesInBase { get; }
 
     public RunePool RunePool { get; }
+
+    public IReadOnlyList<Zone> CardZones =>
+    [
+        MainDeck,
+        Hand,
+        Base,
+        Hidden,
+        Trash,
+        Banish
+    ];
 }

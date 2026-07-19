@@ -8,6 +8,8 @@ public enum ZoneKind
     Battlefield,
     Hidden,
     Trash,
+    Banish,
+    Chain,
     RuneDeck,
     RuneArea
 }

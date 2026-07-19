@@ -7,16 +7,37 @@ public sealed class Zone
 {
     private readonly List<Card> _cards = [];
 
-    public Zone(PlayerId ownerId, ZoneKind kind, string name)
+    public Zone(
+        PlayerId ownerId,
+        ZoneKind kind,
+        string name)
+        : this(
+            ZoneId.New(),
+            ownerId,
+            kind,
+            name)
+    {
+    }
+
+    public Zone(
+        ZoneId id,
+        PlayerId? ownerId,
+        ZoneKind kind,
+        string name)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
+        Id = id;
         OwnerId = ownerId;
         Kind = kind;
         Name = name;
     }
 
-    public PlayerId OwnerId { get; }
+    public ZoneId Id { get; }
+
+    public PlayerId? OwnerId { get; }
+
+    public bool IsShared => OwnerId is null;
 
     public ZoneKind Kind { get; }
 
@@ -26,9 +47,11 @@ public sealed class Zone
 
     public int Count => _cards.Count;
 
-    public bool Contains(CardId cardId) => _cards.Any(card => card.Id == cardId);
+    public bool Contains(CardId cardId) =>
+        _cards.Any(card => card.Id == cardId);
 
-    public Card? PeekTop() => _cards.Count == 0 ? null : _cards[^1];
+    public Card? PeekTop() =>
+        _cards.Count == 0 ? null : _cards[^1];
 
     public void AddToTop(Card card)
     {
@@ -36,7 +59,8 @@ public sealed class Zone
 
         if (Contains(card.Id))
         {
-            throw new InvalidOperationException($"Card {card.Id} is already in zone '{Name}'.");
+            throw new InvalidOperationException(
+                $"Card {card.Id} is already in zone '{Name}'.");
         }
 
         _cards.Add(card);
@@ -48,7 +72,8 @@ public sealed class Zone
 
         if (Contains(card.Id))
         {
-            throw new InvalidOperationException($"Card {card.Id} is already in zone '{Name}'.");
+            throw new InvalidOperationException(
+                $"Card {card.Id} is already in zone '{Name}'.");
         }
 
         _cards.Insert(0, card);
@@ -56,7 +81,9 @@ public sealed class Zone
 
     public bool Remove(CardId cardId, out Card? card)
     {
-        int index = _cards.FindIndex(candidate => candidate.Id == cardId);
+        int index = _cards.FindIndex(
+            candidate => candidate.Id == cardId);
+
         if (index < 0)
         {
             card = null;
