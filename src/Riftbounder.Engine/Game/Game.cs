@@ -36,7 +36,8 @@ public sealed class Game
         [
             .. firstPlayer.CardZones,
             .. secondPlayer.CardZones,
-            .. Board.Battlefields
+            .. Board.Battlefields,
+            .. Board.FacedownZones
         ];
 
         _registeredRuneZones =

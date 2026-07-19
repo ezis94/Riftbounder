@@ -10,12 +10,14 @@ public sealed class Zone
     public Zone(
         PlayerId ownerId,
         ZoneKind kind,
-        string name)
+        string name,
+        int? maximumOccupancy = null)
         : this(
             ZoneId.New(),
             ownerId,
             kind,
-            name)
+            name,
+            maximumOccupancy)
     {
     }
 
@@ -23,14 +25,23 @@ public sealed class Zone
         ZoneId id,
         PlayerId? ownerId,
         ZoneKind kind,
-        string name)
+        string name,
+        int? maximumOccupancy = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
+        if (maximumOccupancy is < 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(maximumOccupancy),
+                "Maximum occupancy cannot be negative.");
+        }
 
         Id = id;
         OwnerId = ownerId;
         Kind = kind;
         Name = name;
+        MaximumOccupancy = maximumOccupancy;
     }
 
     public ZoneId Id { get; }
@@ -42,6 +53,8 @@ public sealed class Zone
     public ZoneKind Kind { get; }
 
     public string Name { get; }
+
+    public int? MaximumOccupancy { get; }
 
     public IReadOnlyList<Card> Cards => _cards;
 
@@ -56,26 +69,14 @@ public sealed class Zone
     public void AddToTop(Card card)
     {
         ArgumentNullException.ThrowIfNull(card);
-
-        if (Contains(card.Id))
-        {
-            throw new InvalidOperationException(
-                $"Card {card.Id} is already in zone '{Name}'.");
-        }
-
+        EnsureCanAdd(card);
         _cards.Add(card);
     }
 
     public void AddToBottom(Card card)
     {
         ArgumentNullException.ThrowIfNull(card);
-
-        if (Contains(card.Id))
-        {
-            throw new InvalidOperationException(
-                $"Card {card.Id} is already in zone '{Name}'.");
-        }
-
+        EnsureCanAdd(card);
         _cards.Insert(0, card);
     }
 
@@ -93,5 +94,21 @@ public sealed class Zone
         card = _cards[index];
         _cards.RemoveAt(index);
         return true;
+    }
+
+    private void EnsureCanAdd(Card card)
+    {
+        if (Contains(card.Id))
+        {
+            throw new InvalidOperationException(
+                $"Card {card.Id} is already in zone '{Name}'.");
+        }
+
+        if (MaximumOccupancy is int maximumOccupancy
+            && Count >= maximumOccupancy)
+        {
+            throw new InvalidOperationException(
+                $"Zone '{Name}' has reached its maximum occupancy of {maximumOccupancy}.");
+        }
     }
 }

@@ -11,7 +11,8 @@ public sealed class BoardState
         Card card,
         CardPosition position,
         bool hasDeflect = false,
-        bool isReady = true)
+        bool isReady = true,
+        bool isTargetable = true)
     {
         ArgumentNullException.ThrowIfNull(card);
 
@@ -25,7 +26,8 @@ public sealed class BoardState
             card,
             position,
             hasDeflect,
-            isReady);
+            isReady,
+            isTargetable);
     }
 
     public BoardCardState Get(CardId cardId) =>

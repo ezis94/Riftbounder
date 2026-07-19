@@ -5,5 +5,6 @@ public enum TargetResolutionStatus
     Eligible,
     Missing,
     WrongKind,
-    WrongLocation
+    WrongLocation,
+    Untargetable
 }

@@ -9,7 +9,8 @@ public sealed class BoardCardState
         Card card,
         CardPosition position,
         bool hasDeflect = false,
-        bool isReady = true)
+        bool isReady = true,
+        bool isTargetable = true)
     {
         ArgumentNullException.ThrowIfNull(card);
 
@@ -17,6 +18,7 @@ public sealed class BoardCardState
         Position = position;
         HasDeflect = hasDeflect;
         IsReady = isReady;
+        IsTargetable = isTargetable;
     }
 
     public Card Card { get; }
@@ -29,11 +31,16 @@ public sealed class BoardCardState
 
     public bool IsReady { get; private set; }
 
+    public bool IsTargetable { get; private set; }
+
     public void MoveTo(CardPosition position) =>
         Position = position;
 
     public void SetDeflect(bool hasDeflect) =>
         HasDeflect = hasDeflect;
+
+    public void SetTargetable(bool isTargetable) =>
+        IsTargetable = isTargetable;
 
     public bool Ready()
     {

@@ -208,4 +208,72 @@ public sealed class TargetingTests
     private sealed record TestContext(
         Card Card,
         BoardState Board);
+
+    [Fact]
+    public void Select_UntargetableCard_IsIllegal()
+    {
+        Card unit = CreateUnitCard();
+        BoardState board = new();
+        board.Register(
+            unit,
+            CardPosition.Battlefield,
+            isTargetable: false);
+
+        TargetSelectionResult result = new TargetSelector(board).Select(
+            unit,
+            new TargetRequirement(
+                TargetKind.Unit,
+                mustBeAtBattlefield: true));
+
+        Assert.False(result.Succeeded);
+        Assert.Contains("untargetable", result.FailureReason ?? string.Empty);
+    }
+
+    [Fact]
+    public void Resolve_TargetBecomesUntargetable_Mistargets()
+    {
+        Card unit = CreateUnitCard();
+        BoardState board = new();
+        board.Register(unit, CardPosition.Battlefield);
+        TargetSnapshot snapshot = SelectBattlefieldUnit(board, unit);
+
+        board.Get(unit.Id).SetTargetable(false);
+
+        TargetResolutionResult result =
+            new TargetResolver(board).Resolve(snapshot);
+
+        Assert.Equal(TargetResolutionStatus.Untargetable, result.Status);
+        Assert.False(result.IsEligible);
+    }
+
+    [Fact]
+    public void Resolve_TargetBecomesTargetableAgain_IsEligible()
+    {
+        Card unit = CreateUnitCard();
+        BoardState board = new();
+        board.Register(unit, CardPosition.Battlefield);
+        TargetSnapshot snapshot = SelectBattlefieldUnit(board, unit);
+
+        board.Get(unit.Id).SetTargetable(false);
+        board.Get(unit.Id).SetTargetable(true);
+
+        TargetResolutionResult result =
+            new TargetResolver(board).Resolve(snapshot);
+
+        Assert.Equal(TargetResolutionStatus.Eligible, result.Status);
+        Assert.True(result.IsEligible);
+    }
+
+    private static TargetSnapshot SelectBattlefieldUnit(
+        BoardState board,
+        Card unit)
+    {
+        TargetSelectionResult selection = new TargetSelector(board).Select(
+            unit,
+            new TargetRequirement(
+                TargetKind.Unit,
+                mustBeAtBattlefield: true));
+
+        return Assert.IsType<TargetSnapshot>(selection.Snapshot);
+    }
 }

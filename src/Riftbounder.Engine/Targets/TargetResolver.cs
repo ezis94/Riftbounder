@@ -46,6 +46,13 @@ public sealed class TargetResolver
                 targetState.Card);
         }
 
+        if (!targetState.IsTargetable)
+        {
+            return new TargetResolutionResult(
+                TargetResolutionStatus.Untargetable,
+                targetState.Card);
+        }
+
         // Deflect is deliberately not checked here. It modifies the cost of
         // choosing the target and has no effect after finalization.
         return new TargetResolutionResult(

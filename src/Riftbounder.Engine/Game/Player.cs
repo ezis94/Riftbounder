@@ -26,18 +26,23 @@ public sealed class Player
             id,
             ZoneKind.Base,
             $"{name}'s Base");
-        Hidden = new Zone(
+        LegendZone = new Zone(
             id,
-            ZoneKind.Hidden,
-            $"{name}'s Hidden Zone");
+            ZoneKind.Legend,
+            $"{name}'s Legend Zone");
+        ChampionZone = new Zone(
+            id,
+            ZoneKind.Champion,
+            $"{name}'s Champion Zone",
+            maximumOccupancy: 1);
         Trash = new Zone(
             id,
             ZoneKind.Trash,
             $"{name}'s Trash");
-        Banish = new Zone(
+        Banishment = new Zone(
             id,
-            ZoneKind.Banish,
-            $"{name}'s Banish Zone");
+            ZoneKind.Banishment,
+            $"{name}'s Banishment");
 
         RuneDeck = new RuneZone(
             id,
@@ -58,11 +63,13 @@ public sealed class Player
 
     public Zone Base { get; }
 
-    public Zone Hidden { get; }
+    public Zone LegendZone { get; }
+
+    public Zone ChampionZone { get; }
 
     public Zone Trash { get; }
 
-    public Zone Banish { get; }
+    public Zone Banishment { get; }
 
     public RuneZone RuneDeck { get; }
 
@@ -75,8 +82,9 @@ public sealed class Player
         MainDeck,
         Hand,
         Base,
-        Hidden,
+        LegendZone,
+        ChampionZone,
         Trash,
-        Banish
+        Banishment
     ];
 }

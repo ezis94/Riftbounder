@@ -6,9 +6,11 @@ public enum ZoneKind
     Hand,
     Base,
     Battlefield,
-    Hidden,
+    Facedown,
+    Legend,
+    Champion,
     Trash,
-    Banish,
+    Banishment,
     Chain,
     RuneDeck,
     RuneArea

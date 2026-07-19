@@ -44,6 +44,12 @@ public sealed class TargetSelector
                 "The target must be at a battlefield.");
         }
 
+        if (!targetState.IsTargetable)
+        {
+            return TargetSelectionResult.Failure(
+                "The target is currently untargetable.");
+        }
+
         TargetSnapshot snapshot = new(
             target.Id,
             requirement);
